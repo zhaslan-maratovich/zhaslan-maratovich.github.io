@@ -241,6 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         infoAddons.classList.add(classHide);
       }
+
+      travelInfo.show();
     }
 
     for (var addEl of addEls) {
