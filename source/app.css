@@ -115,8 +115,25 @@
     @apply fixed left-0 top-0 bottom-0 right-0 z-50;
   }
 
+  .travel-form__content {
+    @apply transition-all duration-700 ease-in-out opacity-100 translate-x-0;
+  }
+
+  .travel-form__bg {
+    @apply bg-black/30 absolute left-0 top-0 bottom-0 right-0;
+    @apply opacity-100 transition-opacity duration-500 ease-in-out;
+  }
+
   .travel-form--hide {
-    @apply hidden;
+    @apply invisible pointer-events-none;
+  }
+
+  .travel-form--hide .travel-form__content {
+    @apply translate-x-full;
+  }
+
+  .travel-form--hide .travel-form__bg {
+    @apply opacity-0;
   }
 
   .trave-info {
