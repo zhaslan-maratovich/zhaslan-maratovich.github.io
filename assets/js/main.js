@@ -1,39 +1,68 @@
+// helpers
+function onScroll (downCallback, upCallback) {
+  function isDown (currentOffset, prevOffset) {
+    return currentOffset > prevOffset;
+  }
+
+  var prevPageYOffset = 0;
+
+  document.addEventListener('scroll', function () {
+    if ( isDown(window.pageYOffset, prevPageYOffset) ) {
+      downCallback && downCallback();
+    } else {
+      upCallback && upCallback();
+    }
+
+    prevPageYOffset = window.pageYOffset;
+  });
+}
+
+function onScrollDown (callback) {
+  onScroll(callback);
+}
+
+function onScrollUp (callback) {
+  onScroll(null, callback);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  var header = document.querySelector('.header');
-  var classHeaderHide = 'header--hide';
-  var info = document.querySelector('.trave-info');
-  var classInfoHide = 'trave-info--hide';
+  var header = {
+    el: document.querySelector('.header'),
+    classes: {
+      hide: 'header--hide',
+    },
 
-  var showHeader = function () {
-    if (header) {
-      header.classList.add(classHeaderHide);
-    }
+    show: function () {
+      if (header.el) {
+        header.el.classList.remove(header.classes.hide);
+      }
+    },
+    hide: function () {
+      if (header.el) {
+        header.el.classList.add(header.classes.hide);
+      }
+    },
   };
 
-  var hideHeader = function () {
-    if (header) {
-      header.classList.remove(classHeaderHide);
-    }
+  var travelInfo = {
+    el: document.querySelector('.trave-info'),
+    classes: {
+      hide: 'trave-info--hide',
+    },
+
+    show: function () {
+      if (travelInfo.el) {
+        travelInfo.el.classList.remove(travelInfo.classes.hide);
+      }
+    },
+    hide: function () {
+      if (travelInfo.el) {
+        travelInfo.el.classList.add(travelInfo.classes.hide);
+      }
+    },
   };
 
-  var showInfo = function () {
-    if (info) {
-      info.classList.add(classInfoHide);
-    }
-  };
-
-  var hideInfo = function () {
-    if (info) {
-      info.classList.remove(classInfoHide);
-    }
-  };
-
-  var infoAddPrice = function (addPrice) {
-    if (info) {
-      //
-    }
-  };
-
+  // Слайдеры
   (function () {
     var optionsSeasons = {
       arrows: false,
@@ -175,17 +204,25 @@ document.addEventListener('DOMContentLoaded', function() {
   })();
 
   (function () {
-    var prevTopOffset = 0;
+    var footer = document.querySelector('footer');
 
-    document.addEventListener('scroll', function () {
-      if (window.pageYOffset > prevTopOffset) {
-        showHeader();
-        hideInfo();
+    onScrollDown(function () {
+      if (window.scrollY < 100) {
+        header.show();
       } else {
-        hideHeader();
-        showInfo();
+        header.hide();
       }
-      prevTopOffset = window.pageYOffset;
+
+      if (footer && footer.offsetTop < window.scrollY + window.innerHeight) {
+        travelInfo.hide();
+      } else {
+        travelInfo.show();
+      }
+    });
+
+    onScrollUp(function () {
+      header.show();
+      travelInfo.hide();
     });
   })();
 
