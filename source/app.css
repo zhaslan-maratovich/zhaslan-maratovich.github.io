@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    @apply [--page-zoom:1px] xl:[--page-zoom:calc(100vw/1310)];
+  }
+
+  html {
+    font-size: calc(16 * var(--page-zoom));
+  }
+
+  body {
+    @apply font-body bg-white text-black;
+  }
+}
+
+@layer components {
+  .header {
+    @apply fixed left-0 top-0 right-0 bg-white z-50 transition-transform translate-y-0 duration-500 ease-in-out;
+  }
+
+  .header--hide {
+    @apply -translate-y-full;
+  }
+
+  .splide__arrow:disabled {
+    @apply text-inactive;
+  }
+
+  .hover-underline span {
+    cursor: pointer;
+    position: relative;
+    transform: translateZ(0px);
+    transition: transform 1s cubic-bezier(0.33, 0, 0.13, 1) 0s, opacity 0.66s cubic-bezier(0.33, 0, 0.67, 1) 0s;
+  }
+
+  .hover-underline span::after {
+    content: "";
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    height: 1px;
+    background: currentcolor;
+    transform-origin: right center;
+    transform: scaleX(0);
+    transition: transform 0.63s cubic-bezier(0.33, 0, 0.13, 1) 0s;
+  }
+
+  .hover-underline:hover span::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .image-fill-wrap img {
+    @apply absolute w-full h-full object-cover;
+  }
+
+  .program-line {
+    @apply relative pb-10 md:pb-12 lg:pb-16 xl:pb-24;
+    @apply before:w-2 before:h-2 before:rounded-full before:bg-dark-green before:absolute before:top-2.5 before:left-0.5 lg:before:w-3 lg:before:h-3 lg:before:left-0;
+    @apply after:absolute after:top-0 after:bottom-0 after:left-1.5 after:w-[1px] after:bg-dark-green/50;
+
+    @apply first:after:top-2.5 last:after:bottom-auto last:after:h-3;
+  }
+
+  .program--hide {
+    @apply relative after:h-44 after:absolute after:left-0 after:right-0 after:bottom-0 after:bg-gradient-to-b after:from-transparent after:to-white lg:after:h-56;
+  }
+
+  .program--hide .program-line:nth-child(n+3) {
+    @apply pb-0;
+  }
+
+  .program--hide .program-line:nth-child(n+4) {
+    @apply hidden;
+  }
+
+  .travel-addons-list {
+    @apply border-t border-inactive mt-10 md:border-none md:mt-12 lg:mt-16;
+  }
+
+  .travel-addons-list--hide {
+    @apply hidden md:block;
+  }
+
+  .travel-addons {
+    @apply text-1 text-middle-grey grid grid-cols-2 gap-y-8 gap-x-4 pt-5 pb-8 md:grid-cols-8 lg:pb-10 xl:grid-cols-12 xl:gap-8;
+    @apply border-b border-inactive last:border-none;
+  }
+
+  .travel-addons--added {
+    @apply text-dark-green;
+  }
+
+  .travel-addons__add {
+    @apply cursor-pointer text-black;
+  }
+
+  .travel-addons__delete {
+    @apply cursor-pointer text-inactive hidden;
+  }
+
+  .travel-addons--added .travel-addons__add {
+    @apply hidden;
+  }
+
+  .travel-addons--added .travel-addons__delete {
+    @apply inline-block;
+  }
+
+  .travel-form {
+    @apply fixed left-0 top-0 bottom-0 right-0 z-50;
+  }
+
+  .travel-form--hide {
+    @apply hidden;
+  }
+
+  .trave-info {
+    @apply pt-7 px-6 pb-5 bg-white rounded-t-3xl border border-inactive border-b-0 z-50 fixed left-0 right-0 bottom-0 before:w-10 before:h-1 before:rounded-full before:bg-black/10 before:absolute before:top-3 before:left-1/2 before:-translate-x-1/2 md:bg-tone md:border-none md:py-4 md:before:hidden xl:px-10;
+    @apply transition-transform translate-y-0 duration-500 ease-in-out;
+  }
+
+  .trave-info--hide {
+    @apply translate-y-full;
+  }
+
+  .trave-info__addons {
+    @apply inline-block mr-2;
+  }
+
+  .trave-info__addons--hide {
+    @apply hidden;
+  }
+}
