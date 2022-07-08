@@ -152,4 +152,8 @@
   .trave-info__addons--hide {
     @apply hidden;
   }
+
+  .marker-list {
+    @apply pl-5 relative before:bg-current before:w-[5px] before:h-[5px] before:rounded-[1px] before:absolute before:left-0.5 before:top-2 lg:before:w-2 lg:before:h-2 lg:before:rounded-sm lg:before:left-0 lg:before:top-2.5;
+  }
 }

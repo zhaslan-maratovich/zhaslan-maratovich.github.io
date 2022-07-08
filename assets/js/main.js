@@ -152,7 +152,23 @@ document.addEventListener('DOMContentLoaded', function() {
           padding: 16,
         }
       }
-    }
+    };
+
+    var optionsTravelRoute = {
+      arrows: false,
+      pagination: false,
+      autoWidth: true,
+      gap: 16,
+      padding: '2.5rem',
+      breakpoints: {
+        1023: {
+          padding: 24,
+        },
+        639: {
+          padding: 16,
+        }
+      }
+    };
 
     var splidesConfig = [
       ['.js-splide-main-seasons', optionsSeasons],
@@ -160,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
       ['.js-splide-main-tabs', optionsTabs],
       ['.js-splide-unique-list', optionsUniqueList],
       ['.js-splide-travel-slides', optionsTravelSlides],
-      ['.js-splide-travel-route', optionsUniqueList],
+      ['.js-splide-travel-route', optionsTravelRoute],
     ];
 
     splidesConfig.forEach(function (config) {
