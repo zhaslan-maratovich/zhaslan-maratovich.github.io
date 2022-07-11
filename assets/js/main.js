@@ -26,7 +26,7 @@ function onScrollUp (callback) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  var header = {
+  const header = {
     el: document.querySelector('.header'),
     classes: {
       hide: 'header--hide',
@@ -44,27 +44,62 @@ document.addEventListener('DOMContentLoaded', function() {
     },
   };
 
-  var travelInfo = {
+  const travelInfo = {
     el: document.querySelector('.trave-info'),
+    elAddons: document.querySelector('.trave-info__addons'),
+    elForm: document.querySelector('.travel-form'),
     classes: {
       hide: 'trave-info--hide',
+      hideAddons: 'trave-info__addons--hide',
+      hideForm: 'travel-form--hide',
     },
 
-    show: function () {
+    start: () => {
+      travelInfo.clickHandlerStart();
+    },
+
+    clickHandlerStart: () => {
+      const travelShowFormBtn = document.querySelector('.js-travel-show-form');
+      const travelHideFormBtn = document.querySelector('.js-travel-hide-form');
+      const form = travelInfo.elForm;
+      const classHideForm = travelInfo.classes.hideForm;
+
+      travelShowFormBtn && travelShowFormBtn.addEventListener('click', function () {
+        form.classList.remove(classHideForm);
+      });
+      travelHideFormBtn && travelHideFormBtn.addEventListener('click', function () {
+        form.classList.add(classHideForm);
+      });
+    },
+
+    show: () => {
       if (travelInfo.el) {
         travelInfo.el.classList.remove(travelInfo.classes.hide);
       }
     },
-    hide: function () {
+    hide: () => {
       if (travelInfo.el) {
         travelInfo.el.classList.add(travelInfo.classes.hide);
       }
     },
+    updateInfoAddons: (countAdds) => {
+      const classHide = travelInfo.classes.hideAddons;
+      const addons = travelInfo.elAddons;
+
+      if (countAdds > 0) {
+        addons.classList.remove(classHide);
+        addons.querySelector('.trave-info__addons-count').innerHTML = countAdds;
+      } else {
+        addons.classList.add(classHide);
+      }
+    }
   };
+
+  travelInfo.start();
 
   // Слайдеры
   (function () {
-    var optionsSeasons = {
+    const optionsSeasons = {
       arrows: false,
       perPage: 4,
       gap: 30,
@@ -85,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     };
-    var optionsCountries = {
+    const optionsCountries = {
       arrows: true,
       perPage: 4,
       gap: 30,
@@ -106,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     };
-    var optionsTabs = {
+    const optionsTabs = {
       arrows: false,
       pagination: false,
       autoWidth: true,
@@ -121,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     }
-    var optionsUniqueList = {
+    const optionsUniqueList = {
       arrows: false,
       pagination: false,
       autoWidth: true,
@@ -135,8 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     }
-
-    var optionsTravelSlides = {
+    const optionsTravelSlides = {
       arrows: true,
       pagination: false,
       autoWidth: true,
@@ -153,8 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     };
-
-    var optionsTravelRoute = {
+    const optionsTravelRoute = {
       arrows: false,
       pagination: false,
       autoWidth: true,
@@ -170,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
 
-    var splidesConfig = [
+    const splidesConfig = [
       ['.js-splide-main-seasons', optionsSeasons],
       ['.js-splide-main-countries', optionsCountries],
       ['.js-splide-main-tabs', optionsTabs],
@@ -180,8 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     splidesConfig.forEach(function (config) {
-      var selector = config[0];
-      var options = config[1];
+      const selector = config[0];
+      const options = config[1];
 
       if (document.querySelector(selector)) {
         new Splide( selector, options ).mount();
@@ -190,33 +223,103 @@ document.addEventListener('DOMContentLoaded', function() {
   })();
 
   (function () {
-    var btnShowProgramInTravel = document.querySelector('.js-show-program-travel');
-    var travelAddonBtn = document.querySelector('.js-travel-addon-btn');
-    var travelShowFormBtn = document.querySelector('.js-travel-show-form');
-    var travelHideFormBtn = document.querySelector('.js-travel-hide-form');
+    const travelPage = {
+      elBtnAddon: document.querySelector('.js-travel-addon-btn'),
+      elAddonList: document.querySelector('.travel-addons-list'),
+      elsBtnAdd: document.querySelectorAll('.travel-addons__add'),
+      elsBtnRemove: document.querySelectorAll('.travel-addons__delete'),
+      elProgram: document.querySelector('.program'),
+      elBtnProgramShow: document.querySelector('.program-button'),
+      classes: {
+        hideAddonsList: 'travel-addons-list--hide',
+        addedAddons: 'travel-addons--added',
+        hideProgram: 'program--hide',
+      },
 
-    travelAddonBtn && travelAddonBtn.addEventListener('click', function () {
-      var addonList = document.querySelector('.travel-addons-list');
-      var classHideList = 'travel-addons-list--hide';
+      start: () => {
+        travelPage.toggleOnMobileStart();
+        travelPage.toggleAddonsStart();
+        travelPage.toggleProgramStart();
+      },
 
-      if (addonList.classList.contains(classHideList)) {
-        addonList.classList.remove(classHideList);
-        travelAddonBtn.innerHTML = 'Скрыть';
-      } else {
-        addonList.classList.add(classHideList);
-        travelAddonBtn.innerHTML = 'Раскрыть';
+      toggleOnMobileStart: () => {
+        const btn = travelPage.elBtnAddon;
+        const addonList = travelPage.elAddonList;
+        const classHideList = travelPage.classes.hideAddonsList;
+
+        btn && btn.addEventListener('click', function () {
+          if (addonList.classList.contains(classHideList)) {
+            addonList.classList.remove(classHideList);
+            btn.innerHTML = 'Скрыть';
+          } else {
+            addonList.classList.add(classHideList);
+            btn.innerHTML = 'Раскрыть';
+          }
+        })
+      },
+
+      toggleAddonsStart: () => {
+        let countSelectAdds = 0;
+
+        for (let el of travelPage.elsBtnAdd) {
+          el.addEventListener('click', function () {
+            const elParent = this.parentElement.parentElement;
+
+            countSelectAdds += 1;
+            travelPage.updateInfoAddons(countSelectAdds);
+            elParent.classList.add(travelPage.classes.addedAddons);
+          });
+        }
+
+        for (let el of travelPage.elsBtnRemove) {
+          el.addEventListener('click', function (e) {
+            const elParent = this.parentElement.parentElement;
+
+            countSelectAdds -= 1;
+            updateInfoAddons(countSelectAdds);
+            elParent.classList.remove(travelPage.classes.addedAddons);
+          });
+        }
+      },
+
+      toggleProgramStart: () => {
+        const btn = travelPage.elBtnProgramShow;
+        const program = travelPage.elProgram;
+        const classHideProgram = travelPage.classes.hideProgram;
+
+        const btnTextOnHide = 'Показать всю программу';
+        const btnTextOnShow = 'Скрыть всю программу';
+
+        btn && btn.addEventListener('click', () => {
+          if (program.classList.contains(classHideProgram)) {
+            program.classList.remove(classHideProgram);
+            btn.innerHTML = btnTextOnShow;
+          } else {
+            program.classList.add(classHideProgram);
+            btn.innerHTML = btnTextOnHide;
+          }
+        });
+      },
+
+      updateInfoAddons: (countAdds) => {
+        travelInfo.updateInfoAddons(countAdds);
+        travelInfo.show();
       }
-    });
+    };
 
-    var form = document.querySelector('.travel-form');
-    var classHideForm = 'travel-form--hide';
+    travelPage.start();
 
-    travelShowFormBtn && travelShowFormBtn.addEventListener('click', function () {
-      form.classList.remove(classHideForm);
-    });
-    travelHideFormBtn && travelHideFormBtn.addEventListener('click', function () {
-      form.classList.add(classHideForm);
-    });
+    // const travelShowFormBtn = document.querySelector('.js-travel-show-form');
+    // const travelHideFormBtn = document.querySelector('.js-travel-hide-form');
+    // var form = document.querySelector('.travel-form');
+    // var classHideForm = 'travel-form--hide';
+
+    // travelShowFormBtn && travelShowFormBtn.addEventListener('click', function () {
+    //   form.classList.remove(classHideForm);
+    // });
+    // travelHideFormBtn && travelHideFormBtn.addEventListener('click', function () {
+    //   form.classList.add(classHideForm);
+    // });
   })();
 
   (function () {
@@ -242,42 +345,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   })();
 
-  (function () {
-    var addEls = document.querySelectorAll('.travel-addons__add');
-    var removeEls = document.querySelectorAll('.travel-addons__delete');
-    var countSelectAdds = 0;
-
-    function updateInfoAddons(countAdds) {
-      var classHide = 'trave-info__addons--hide';
-      var infoAddons = document.querySelector('.trave-info__addons');
-
-      if (countAdds > 0) {
-        infoAddons.classList.remove(classHide);
-        infoAddons.querySelector('.trave-info__addons-count').innerHTML = countAdds;
-      } else {
-        infoAddons.classList.add(classHide);
-      }
-
-      travelInfo.show();
-    }
-
-    for (var addEl of addEls) {
-      addEl.addEventListener('click', function (e) {
-        // var addPrice = this.dataset.price;
-        countSelectAdds += 1;
-        updateInfoAddons(countSelectAdds);
-        this.parentElement.parentElement.classList.add('travel-addons--added');
-      });
-    }
-
-    for (var removeEl of removeEls) {
-      removeEl.addEventListener('click', function (e) {
-        console.log('===');
-        // var addPrice = this.dataset.price;
-        countSelectAdds -= 1;
-        updateInfoAddons(countSelectAdds);
-        this.parentElement.parentElement.classList.remove('travel-addons--added');
-      });
-    }
-  })();
 });
