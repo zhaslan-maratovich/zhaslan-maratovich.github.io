@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const elParent = this.parentElement.parentElement;
 
             countSelectAdds -= 1;
-            updateInfoAddons(countSelectAdds);
+            travelPage.updateInfoAddons(countSelectAdds);
             elParent.classList.remove(travelPage.classes.addedAddons);
           });
         }
@@ -308,18 +308,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     travelPage.start();
-
-    // const travelShowFormBtn = document.querySelector('.js-travel-show-form');
-    // const travelHideFormBtn = document.querySelector('.js-travel-hide-form');
-    // var form = document.querySelector('.travel-form');
-    // var classHideForm = 'travel-form--hide';
-
-    // travelShowFormBtn && travelShowFormBtn.addEventListener('click', function () {
-    //   form.classList.remove(classHideForm);
-    // });
-    // travelHideFormBtn && travelHideFormBtn.addEventListener('click', function () {
-    //   form.classList.add(classHideForm);
-    // });
   })();
 
   (function () {
