@@ -188,9 +188,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
     const optionsTravelRoute = {
-      arrows: false,
+      arrows: true,
       pagination: false,
       autoWidth: true,
+      updateOnMove: true,
+      flickMaxPages: 3,
+      speed: 1000,
       gap: 16,
       padding: '2.5rem',
       breakpoints: {
