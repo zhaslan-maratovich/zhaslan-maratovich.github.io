@@ -52,10 +52,15 @@ document.addEventListener('DOMContentLoaded', function() {
       hide: 'trave-info--hide',
       hideAddons: 'trave-info__addons--hide',
       hideForm: 'travel-form--hide',
+      swipeUp: 'trave-info--swipe-up',
     },
+    touchPositionStart: null,
+    touchPositionMove: null,
+    sensitivity: 32,
 
     start: () => {
       travelInfo.clickHandlerStart();
+      travelInfo.touchStart();
     },
 
     clickHandlerStart: () => {
@@ -70,6 +75,68 @@ document.addEventListener('DOMContentLoaded', function() {
       travelHideFormBtn && travelHideFormBtn.addEventListener('click', function () {
         form.classList.add(classHideForm);
       });
+    },
+
+    touchStart: () => {
+      travelInfo.el.addEventListener('touchstart', (e) => {
+        const x = e.changedTouches[0].clientX;
+        const y = e.changedTouches[0].clientY;
+
+        travelInfo.touchPositionStart = {x: x, y: y};
+        travelInfo.touchPositionMove = {x: x, y: y};
+      });
+
+      travelInfo.el.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+
+        const x = e.changedTouches[0].clientX;
+        const y = e.changedTouches[0].clientY;
+
+        travelInfo.touchPositionMove = {x: x, y: y};
+
+        if (travelInfo.checkSwipe() === 'up') {
+          console.log('swipe up');
+          travelInfo.el.classList.add(travelInfo.classes.swipeUp);
+        } else if (travelInfo.checkSwipe() === 'down') {
+          console.log('swipe down');
+          travelInfo.el.classList.remove(travelInfo.classes.swipeUp);
+        }
+      });
+
+      travelInfo.el.addEventListener('touchend', (e) => {
+        // if (travelInfo.checkSwipe() === 'up') {
+        //   console.log('swipe up');
+        //   travelInfo.el.classList.add(travelInfo.classes.swipeUp);
+        // }
+
+        travelInfo.touchPositionStart = null;
+        travelInfo.touchPositionMove = null;
+      });
+    },
+
+    checkSwipe: () => {
+      const touchPositionMove = travelInfo.touchPositionMove;
+      const touchPositionStart = travelInfo.touchPositionStart;
+
+      const d = {
+        x: touchPositionStart.x - touchPositionMove.x,
+        y: touchPositionStart.y - touchPositionMove.y
+      };
+
+      if(Math.abs(d.y) > Math.abs(d.x)) {
+        if(Math.abs(d.y) > travelInfo.sensitivity) {
+          if(d.y > 0) //Свайп вверх
+          {
+            return 'up';
+          }
+          else //Свайп вниз
+          {
+            return 'down';
+          }
+        }
+      }
+
+      return false;
     },
 
     show: () => {

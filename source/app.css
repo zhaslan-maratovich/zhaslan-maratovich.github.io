@@ -139,11 +139,15 @@
 
   .trave-info {
     @apply pt-7 px-6 pb-5 bg-white rounded-t-3xl border border-inactive border-b-0 z-50 fixed left-0 right-0 bottom-0 before:w-10 before:h-1 before:rounded-full before:bg-black/10 before:absolute before:top-3 before:left-1/2 before:-translate-x-1/2 md:bg-tone md:border-none md:py-4 md:before:hidden xl:px-10;
-    @apply transition-transform translate-y-0 duration-700 ease-in-out;
+    @apply transition-transform translate-y-24 duration-500 ease-in-out md:duration-700 md:ease-in-out md:translate-y-0;
+  }
+
+  .trave-info--swipe-up {
+    @apply translate-y-0;
   }
 
   .trave-info--hide {
-    @apply translate-y-full;
+    @apply md:translate-y-full;
   }
 
   .trave-info__addons {
