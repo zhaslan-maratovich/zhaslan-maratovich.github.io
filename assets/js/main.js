@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
     sensitivity: 32,
 
     start: () => {
+      if (!travelInfo.el) return;
+
       travelInfo.clickHandlerStart();
       travelInfo.touchStart();
     },
